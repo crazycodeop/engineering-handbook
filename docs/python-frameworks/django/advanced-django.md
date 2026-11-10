@@ -364,3 +364,178 @@ class BookAdmin(admin.ModelAdmin):
     def get_author_name(self, obj):
         return obj.author.name
 ```
+
+---
+
+# 6. Extending & Customizing the Django Admin
+
+## Interview Question
+
+**How do you customize the Django Admin for production workflows? How do you implement custom actions, inlines, colored status badges, and custom list filters?**
+
+---
+
+### Answer
+
+The Django Admin is not just for superusers; back-office operations, customer support, and finance teams rely on it every day.
+
+Out of the box, the default admin is basic. In production, we customize it extensively.
+
+---
+
+### 1. Custom Batch Actions (e.g. Export to CSV)
+
+Suppose operations staff need to select multiple orders and mark them as shipped in bulk:
+
+```python
+from django.contrib import admin
+from django.utils.translation import ngettext
+from django.contrib import messages
+
+@admin.action(description="Mark selected orders as Shipped")
+def mark_as_shipped(modeladmin, request, queryset):
+    # Atomic database bulk update
+    updated_count = queryset.filter(status='pending').update(status='shipped')
+
+    # Feedback banner for admin user
+    modeladmin.message_user(
+        request,
+        ngettext(
+            "%d order was successfully marked as shipped.",
+            "%d orders were successfully marked as shipped.",
+            updated_count,
+        ) % updated_count,
+        messages.SUCCESS,
+    )
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'status', 'total_amount')
+    actions = [mark_as_shipped]
+```
+
+---
+
+### 2. Inline Formsets: Managing Children on Parent Pages
+
+If every `Order` has multiple `OrderItem` rows, navigating to a separate page to edit each item is frustrating.
+
+Use `TabularInline` (compact table layout) or `StackedInline` (vertical form layout):
+
+```python
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 0          # Prevents showing 3 empty blank rows by default
+    min_num = 1        # Enforces at least 1 item
+    raw_id_fields = ('product',)
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'status', 'created_at')
+    inlines = [OrderItemInline]
+```
+
+Now, when opening an order, all related items are rendered and editable directly on that same page.
+
+---
+
+### 3. Colored Status Badges with `format_html`
+
+Instead of plain text status words, color-coded badges help support staff quickly spot problem orders:
+
+```python
+from django.utils.html import format_html
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'status_badge', 'total_amount')
+
+    @admin.display(description="Status", ordering="status")
+    def status_badge(self, obj):
+        colors = {
+            'completed': '#28a745',  # Green
+            'pending': '#ffc107',    # Yellow
+            'failed': '#dc3545',     # Red
+            'refunded': '#6c757d',   # Grey
+        }
+        color = colors.get(obj.status, '#000')
+        return format_html(
+            '<span style="background-color: {}; color: white; padding: 3px 8px; border-radius: 4px; font-weight: bold;">{}</span>',
+            color,
+            obj.status.upper()
+        )
+```
+
+---
+
+### 4. Custom Filters with `SimpleListFilter`
+
+When built-in `list_filter = ('status',)` is not enough (e.g. you want business-logic filters like "High Value Orders > \$1,000"):
+
+```python
+class HighValueFilter(admin.SimpleListFilter):
+    title = 'order value tier'  # Title shown on the filter sidebar
+    parameter_name = 'value_tier'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('high', 'High Value (> $1,000)'),
+            ('standard', 'Standard (≤ $1,000)'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'high':
+            return queryset.filter(total_amount__gt=1000)
+        if self.value() == 'standard':
+            return queryset.filter(total_amount__lte=1000)
+        return queryset
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_filter = (HighValueFilter, 'status', 'created_at')
+```
+
+---
+
+### 5. Custom Fieldsets & Readonly Locks
+
+Organize cluttered forms into clean, collapsible sections, and prevent editing critical audit fields:
+
+```python
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    readonly_fields = ('created_at', 'updated_at', 'stripe_charge_id')
+
+    fieldsets = (
+        ("Customer Information", {
+            'fields': ('user', 'shipping_address')
+        }),
+        ("Financial Details", {
+            'fields': ('total_amount', 'stripe_charge_id', 'status')
+        }),
+        ("Timestamps & Audit", {
+            'classes': ('collapse',),  # Collapsible drawer in the UI!
+            'fields': ('created_at', 'updated_at')
+        }),
+    )
+
+    # Disable deletion of already completed orders
+    def has_delete_permission(self, request, obj=None):
+        if obj and obj.status == 'completed':
+            return False  # Protects financial records from deletion!
+        return super().has_delete_permission(request, obj)
+```
+
+---
+
+### 6. Securing the Admin in Production
+
+1. **Change the URL**: Automated botnets constantly scan `/admin/` with brute-force dictionaries. Change the path in `urls.py` to something unexpected:
+   ```python
+   # urls.py
+   urlpatterns = [
+       path('internal-portal-992/', admin.site.urls),
+   ]
+   ```
+2. **Two-Factor Authentication (2FA)**: Integrate `django-otp` or `django-two-factor-auth` so admin logins require TOTP authenticator codes.
+3. **Admin Honeypot**: Point `/admin/` to `django-admin-honeypot`, which logs attacker IP addresses and alerts your security team when a bot attempts a login!
