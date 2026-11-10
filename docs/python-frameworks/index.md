@@ -59,7 +59,24 @@ Python Backend Frameworks
 │   ├── Authentication & Web Security
 │   └── Blueprints, Application Factory & Production Best Practices
 │
-└── 5. Comparisons & Production Scenarios
+├── 5. Pytest & Backend Testing
+│   ├── Pytest Fundamentals & AST Assertions
+│   ├── Fixtures, Scopes, conftest.py & Mocking
+│   ├── Testing Django & DRF (pytest-django, APIClient, Factory Boy)
+│   ├── Testing FastAPI (TestClient, httpx.AsyncClient, dependency_overrides)
+│   ├── Testing Flask (Application Factory, Contexts, Isolated DB)
+│   └── Advanced Testing (Testing Pyramid, Race Conditions, Optimizing CI)
+│
+├── 6. Boto3 & AWS for Python Developers
+│   ├── AWS Fundamentals, IAM Roles & Policies
+│   ├── Setup, Credentials & The Default Provider Chain
+│   ├── Amazon S3 Storage & Scalable Presigned Direct Uploads
+│   ├── Django + S3 Integration (django-storages, Private Documents)
+│   ├── Amazon SQS Messaging (Visibility Timeout, Long Polling, DLQs)
+│   ├── SES, EC2 (Instance Metadata), CloudWatch & Secrets Manager
+│   └── Production Cloud Architecture & Interview Debugging Scenarios
+│
+└── 7. Comparisons & Production Scenarios
     ├── Head-to-Head Architectural Comparisons (WSGI vs ASGI, ORM vs SQLAlchemy, etc.)
     └── Real-World Production Debugging Incidents & Interview Scenarios
 ```

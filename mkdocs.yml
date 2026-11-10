@@ -133,6 +133,21 @@ nav:
           - Database & Migrations: python-frameworks/flask/database-and-extensions.md
           - Authentication & Security: python-frameworks/flask/authentication-and-security.md
           - Advanced Flask & Deployment: python-frameworks/flask/advanced-flask.md
+      - Pytest & Backend Testing:
+          - Pytest Fundamentals: python-frameworks/testing/pytest-fundamentals.md
+          - Fixtures, Parametrize & Mocking: python-frameworks/testing/fixtures-and-mocking.md
+          - Testing Django & DRF: python-frameworks/testing/testing-django-drf.md
+          - Testing FastAPI: python-frameworks/testing/testing-fastapi.md
+          - Testing Flask: python-frameworks/testing/testing-flask.md
+          - Advanced Testing & Scenarios: python-frameworks/testing/advanced-testing.md
+      - Boto3 & AWS for Python Developers:
+          - AWS Fundamentals & IAM: python-frameworks/aws/aws-fundamentals-iam.md
+          - Setup, Credentials & Boto3 Architecture: python-frameworks/aws/setup-credentials-boto3.md
+          - S3 Storage & Presigned URLs: python-frameworks/aws/s3-storage.md
+          - Django & S3 Integration: python-frameworks/aws/django-s3-integration.md
+          - SQS & Asynchronous Messaging: python-frameworks/aws/sqs-messaging.md
+          - SES, EC2, CloudWatch & Secrets: python-frameworks/aws/other-aws-services.md
+          - Production Architecture & Scenarios: python-frameworks/aws/production-interview-scenarios.md
       - Comparisons & Scenarios:
           - Framework Comparisons: python-frameworks/comparisons/framework-comparisons.md
           - Production Debugging Scenarios: python-frameworks/comparisons/production-scenarios.md
