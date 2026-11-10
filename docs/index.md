@@ -42,6 +42,7 @@ Browse the tree below — every leaf links directly to a page.
         - [Views, URLs & Templates](python-frameworks/django/views-urls-templates.md)
         - [Models & ORM](python-frameworks/django/models-and-orm.md)
         - [Authentication & Security](python-frameworks/django/authentication-and-security.md)
+        - [Admin Customization & Security](python-frameworks/django/admin-customization.md)
         - [Advanced Django & Production](python-frameworks/django/advanced-django.md)
     - **Django REST Framework**
         - [Fundamentals & Views](python-frameworks/drf/fundamentals-and-views.md)
