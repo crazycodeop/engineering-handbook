@@ -105,9 +105,35 @@ nav:
           - Property Method: python/methods/property.md
 
   - Python Frameworks:
+      - Overview: python-frameworks/index.md
       - Django:
-          - Django Overview: python-frameworks/django/django.md
-          - Django Rest Framework: python-frameworks/django/django-rest-framework.md
+          - Architecture & Request Lifecycle: python-frameworks/django/architecture-and-lifecycle.md
+          - Views, URLs & Templates: python-frameworks/django/views-urls-templates.md
+          - Models & ORM: python-frameworks/django/models-and-orm.md
+          - Authentication & Security: python-frameworks/django/authentication-and-security.md
+          - Advanced Django & Production: python-frameworks/django/advanced-django.md
+      - Django REST Framework:
+          - Fundamentals & Views: python-frameworks/drf/fundamentals-and-views.md
+          - Serializers & Validation: python-frameworks/drf/serializers-and-validation.md
+          - Authentication & Permissions: python-frameworks/drf/authentication-and-permissions.md
+          - API Features & Pagination: python-frameworks/drf/api-features.md
+          - Advanced DRF & Testing: python-frameworks/drf/advanced-drf.md
+      - FastAPI:
+          - Fundamentals & Routing: python-frameworks/fastapi/fundamentals.md
+          - Pydantic v2 & Data Validation: python-frameworks/fastapi/pydantic.md
+          - Dependency Injection: python-frameworks/fastapi/dependency-injection.md
+          - Async & Concurrency: python-frameworks/fastapi/async-programming.md
+          - Authentication & Security: python-frameworks/fastapi/authentication-and-security.md
+          - Database Integration & Production: python-frameworks/fastapi/database-and-production.md
+      - Flask:
+          - Fundamentals & Routing: python-frameworks/flask/fundamentals.md
+          - Application Architecture & Contexts: python-frameworks/flask/application-architecture.md
+          - Database & Migrations: python-frameworks/flask/database-and-extensions.md
+          - Authentication & Security: python-frameworks/flask/authentication-and-security.md
+          - Advanced Flask & Deployment: python-frameworks/flask/advanced-flask.md
+      - Comparisons & Scenarios:
+          - Framework Comparisons: python-frameworks/comparisons/framework-comparisons.md
+          - Production Debugging Scenarios: python-frameworks/comparisons/production-scenarios.md
 
   - Design Patterns (GoF):
       - Creational:
