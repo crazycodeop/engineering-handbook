@@ -34,7 +34,8 @@ Python Backend Frameworks
 │   ├── Models & Deep ORM Internals (N+1, select_related vs prefetch_related, Transactions)
 │   ├── Authentication, Sessions & Security Best Practices
 │   ├── Admin Customization, Batch Actions & Security Hardening
-│   └── Advanced Django (Caching, Celery, Signals, Middleware, Production Deployment)
+│   ├── Celery & Redis Distributed Background Task Architecture
+│   └── Advanced Django (Caching, Signals, Middleware, Production Deployment)
 │
 ├── 2. Django REST Framework (DRF)
 │   ├── Fundamentals & Views (APIView, GenericAPIView, ViewSets)
